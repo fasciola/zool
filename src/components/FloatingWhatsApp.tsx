@@ -5,7 +5,7 @@ export function FloatingWhatsApp() {
     const defaultText = encodeURIComponent(
       "Hello ZOOL Businessmen Services, I would like to get in touch regarding UAE business setup solutions."
     );
-    window.open(`https://wa.me/+971503626053?text=${defaultText}`, "_blank", "referrer");
+    window.open(`https://wa.me/+971568826563?text=${defaultText}`, "_blank", "referrer");
   };
 
   return (
