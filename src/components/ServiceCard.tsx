@@ -24,7 +24,7 @@ const SERVICE_IMAGES: Record<number, string> = {
 
 // Specify which service IDs have custom uploaded covers in public/services directory to avoid 404 network hits.
 // Keep empty to use high-resolution, instant-loading curated CDN Unsplash photos directly.
-const UPLOADED_SERVICES: number[] = [];
+const UPLOADED_SERVICES: number[] = [1, 2, 3, 4, 5, 6];
 
 export function ServiceCard({ service }: ServiceCardProps) {
     const { isRtl, content } = useLanguage();

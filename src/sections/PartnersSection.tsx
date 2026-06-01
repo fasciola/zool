@@ -204,9 +204,8 @@ const PARTNER_LOGO_FILENAMES: Record<number, string> = {
     13: "flydubai"
 };
 
-// Specify which partner indices have uploaded logos in the public/logos directory to avoid heavy 404 network requests.
-// Keep empty to use the beautiful, instant-loading monogram fallbacks.
-const UPLOADED_LOGOS: number[] = [];
+// Specify which partner indices have uploaded logos in the public/logos directory.
+const UPLOADED_LOGOS: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 // Optimized 3D Flipping Card Component
 const PartnerCard = React.memo(({ name, index }: { name: string; index: number }) => {
