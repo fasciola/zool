@@ -212,73 +212,29 @@ const FRAG_SRC = [
 
 export function FlowField() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 480;
+    const isMobile =
+        typeof window !== "undefined" &&
+        (window.innerWidth < 1024 || navigator.maxTouchPoints > 0);
 
     useEffect(() => {
         if (isMobile) return;
-        const canvas = canvasRef.current;
-        if (!canvas) return;
 
-        const gl = canvas.getContext("webgl", { alpha: false, antialias: false });
-        if (!gl) {
-            console.error("WebGL not available");
-            return;
-        }
-
-        // Compile shaders
-        function compile(type: number, src: string) {
-            const s = gl!.createShader(type)!;
-            gl!.shaderSource(s, src);
-            gl!.compileShader(s);
-            if (!gl!.getShaderParameter(s, gl!.COMPILE_STATUS)) {
-                console.error("Shader error:", gl!.getShaderInfoLog(s));
-                return null;
-            }
-            return s;
-        }
-
-        const vs = compile(gl.VERTEX_SHADER, VERT_SRC);
-        const fs = compile(gl.FRAGMENT_SHADER, FRAG_SRC);
-        if (!vs || !fs) return;
-
-        const prog = gl.createProgram()!;
-        gl.attachShader(prog, vs);
-        gl.attachShader(prog, fs);
-        gl.linkProgram(prog);
-        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-            console.error("Link error:", gl.getProgramInfoLog(prog));
-            return;
-        }
-        gl.useProgram(prog);
-
-        // Full-screen triangle
-        const buf = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.bufferData(
-            gl.ARRAY_BUFFER,
-            new Float32Array([-1, -1, 3, -1, -1, 3]),
-            gl.STATIC_DRAW
-        );
-        const aPos = gl.getAttribLocation(prog, "a_pos");
-        gl.enableVertexAttribArray(aPos);
-        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-        // Uniforms
-        const uTime = gl.getUniformLocation(prog, "u_time");
-        const uRes = gl.getUniformLocation(prog, "u_res");
-        const uFlow = gl.getUniformLocation(prog, "u_flowSpeed");
-        const uSheen = gl.getUniformLocation(prog, "u_sheenIntensity");
-        const uMouse = gl.getUniformLocation(prog, "u_mouse");
+        let canvas = canvasRef.current;
+        let gl: WebGLRenderingContext | null = null;
+        let vs: WebGLShader | null = null;
+        let fs: WebGLShader | null = null;
+        let prog: WebGLProgram | null = null;
+        let buf: WebGLBuffer | null = null;
+        let running = true;
+        let animId = 0;
 
         let mx = -1.0,
             my = -1.0;
         let needsResize = true;
-        let running = true;
-        let animId = 0;
 
         const onMove = (e: MouseEvent) => {
             mx = e.clientX;
-            my = canvas!.clientHeight - e.clientY;
+            my = canvas ? canvas.clientHeight - e.clientY : -1.0;
         };
         const onLeave = () => {
             mx = -1.0;
@@ -287,38 +243,6 @@ export function FlowField() {
         const onResize = () => {
             needsResize = true;
         };
-
-        canvas.addEventListener("mousemove", onMove);
-        canvas.addEventListener("mouseleave", onLeave);
-        window.addEventListener("resize", onResize);
-
-        function resize() {
-            if (!canvas) return;
-            needsResize = false;
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            canvas!.width = w;
-            canvas!.height = h;
-            canvas!.style.width = w + "px";
-            canvas!.style.height = h + "px";
-            gl!.viewport(0, 0, w, h);
-            gl!.uniform2f(uRes, w, h);
-        }
-
-        function render(now: number) {
-            if (!running) return;
-            if (needsResize) resize();
-            gl!.uniform1f(uTime, now * 0.001);
-            gl!.uniform1f(uFlow, 0.4);
-            gl!.uniform1f(uSheen, 1.0);
-            gl!.uniform2f(uMouse, mx, my);
-            gl!.drawArrays(gl!.TRIANGLES, 0, 3);
-            animId = requestAnimationFrame(render);
-        }
-
-        resize();
-        animId = requestAnimationFrame(render);
-
         const onVis = () => {
             if (document.hidden) {
                 running = false;
@@ -327,13 +251,109 @@ export function FlowField() {
                 animId = requestAnimationFrame(render);
             }
         };
-        document.addEventListener("visibilitychange", onVis);
+
+        function resize() {
+            if (!canvas) return;
+            needsResize = false;
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            canvas.width = w;
+            canvas.height = h;
+            canvas.style.width = w + "px";
+            canvas.style.height = h + "px";
+            if (gl) {
+                gl.viewport(0, 0, w, h);
+                const uRes = gl.getUniformLocation(prog!, "u_res");
+                gl.uniform2f(uRes, w, h);
+            }
+        }
+
+        function render(now: number) {
+            if (!running || !gl) return;
+            if (needsResize) resize();
+
+            const uTime = gl.getUniformLocation(prog!, "u_time");
+            const uFlow = gl.getUniformLocation(prog!, "u_flowSpeed");
+            const uSheen = gl.getUniformLocation(prog!, "u_sheenIntensity");
+            const uMouse = gl.getUniformLocation(prog!, "u_mouse");
+
+            gl.uniform1f(uTime, now * 0.001);
+            gl.uniform1f(uFlow, 0.4);
+            gl.uniform1f(uSheen, 1.0);
+            gl.uniform2f(uMouse, mx, my);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+            animId = requestAnimationFrame(render);
+        }
+
+        // Defer the heavy WebGL compilation and linkage so the initial paint of HTML elements happens instantly!
+        const initTimeout = setTimeout(() => {
+            canvas = canvasRef.current;
+            if (!canvas || !running) return;
+
+            gl = canvas.getContext("webgl", { alpha: false, antialias: false });
+            if (!gl) {
+                console.error("WebGL not available");
+                return;
+            }
+
+            // Compile shaders
+            function compile(type: number, src: string) {
+                const s = gl!.createShader(type)!;
+                gl!.shaderSource(s, src);
+                gl!.compileShader(s);
+                if (!gl!.getShaderParameter(s, gl!.COMPILE_STATUS)) {
+                    console.error("Shader error:", gl!.getShaderInfoLog(s));
+                    return null;
+                }
+                return s;
+            }
+
+            vs = compile(gl.VERTEX_SHADER, VERT_SRC);
+            fs = compile(gl.FRAGMENT_SHADER, FRAG_SRC);
+            if (!vs || !fs) return;
+
+            prog = gl.createProgram()!;
+            gl.attachShader(prog, vs);
+            gl.attachShader(prog, fs);
+            gl.linkProgram(prog);
+            if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+                console.error("Link error:", gl.getProgramInfoLog(prog));
+                return;
+            }
+            gl.useProgram(prog);
+
+            // Full-screen triangle
+            buf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+            gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array([-1, -1, 3, -1, -1, 3]),
+                gl.STATIC_DRAW
+            );
+            const aPos = gl.getAttribLocation(prog, "a_pos");
+            gl.enableVertexAttribArray(aPos);
+            gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+            canvas.addEventListener("mousemove", onMove);
+            canvas.addEventListener("mouseleave", onLeave);
+            window.addEventListener("resize", onResize);
+            document.addEventListener("visibilitychange", onVis);
+
+            resize();
+            animId = requestAnimationFrame(render);
+
+            // Gracefully fade in the canvas after compilation finishes
+            canvas.style.opacity = "1";
+        }, 60);
 
         return () => {
             running = false;
+            clearTimeout(initTimeout);
             cancelAnimationFrame(animId);
-            canvas!.removeEventListener("mousemove", onMove);
-            canvas!.removeEventListener("mouseleave", onLeave);
+            if (canvas) {
+                canvas.removeEventListener("mousemove", onMove);
+                canvas.removeEventListener("mouseleave", onLeave);
+            }
             window.removeEventListener("resize", onResize);
             document.removeEventListener("visibilitychange", onVis);
         };
@@ -351,8 +371,8 @@ export function FlowField() {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 pointer-events-none"
-            style={{ zIndex: 1, width: "100vw", height: "100vh" }}
+            className="fixed inset-0 pointer-events-none transition-opacity duration-1000"
+            style={{ zIndex: 1, width: "100vw", height: "100vh", opacity: 0 }}
         />
     );
 }
