@@ -159,46 +159,33 @@ const FRAG_SRC = [
     "  float bgD = length(p);",
     "  vec3 bg = mix(vec3(0.015), vec3(0.002), smoothstep(0.0, 1.0, bgD));",
     "",
-    "  // Layer 1: dark silk",
+    "  // Layer 1: background silk (Lite)",
     "  vec4 ly1 = shadeLayer(",
-    "    p * 0.8 + vec2(0.15, t * 0.015), t,",
-    "    0.0, 2.0, 0.5,",
-    "    vec3(0.02),",
-    "    vec3(0.07),",
-    "    vec3(0.16),",
-    "    vec3(0.50),",
-    "    0.22, 26.0, L1, L2, V, u_sheenIntensity * 0.5",
-    "  );",
-    "",
-    "  // Layer 2: mid silk",
-    "  vec4 ly2 = shadeLayer(",
-    "    p * 1.0 + vec2(t * 0.012, -0.1), t,",
-    "    1.0, 3.2, 0.75,",
+    "    p * 0.9 + vec2(0.15, t * 0.012), t,",
+    "    0.0, 2.5, 0.6,",
     "    vec3(0.015),",
     "    vec3(0.06),",
     "    vec3(0.15),",
     "    vec3(0.48),",
-    "    0.28, 40.0, L1, L2, V, u_sheenIntensity * 0.6",
+    "    0.26, 35.0, L1, L2, V, u_sheenIntensity * 0.55",
     "  );",
     "",
-    "  // Layer 3: front silk",
-    "  vec4 ly3 = shadeLayer(",
-    "    p * 1.2 + vec2(-t * 0.008, t * 0.02), t,",
-    "    2.0, 4.5, 1.0,",
+    "  // Layer 2: foreground silk (Detailed)",
+    "  vec4 ly2 = shadeLayer(",
+    "    p * 1.1 + vec2(-t * 0.008, t * 0.018), t,",
+    "    2.0, 4.0, 0.9,",
     "    vec3(0.018),",
-    "    vec3(0.06),",
-    "    vec3(0.15),",
+    "    vec3(0.07),",
+    "    vec3(0.16),",
     "    vec3(0.52),",
-    "    0.35, 55.0, L1, L2, V, u_sheenIntensity * 0.7",
+    "    0.34, 48.0, L1, L2, V, u_sheenIntensity * 0.65",
     "  );",
     "",
     "  // Composite back-to-front",
     "  vec3 col = bg;",
     "  col = mix(col, ly1.rgb, ly1.a);",
-    "  col += vec3(0.04) * ly1.a * ly2.a * 0.06;",
+    "  col += vec3(0.035) * ly1.a * ly2.a * 0.05;",
     "  col = mix(col, ly2.rgb, ly2.a);",
-    "  col += vec3(0.03) * ly2.a * ly3.a * 0.04;",
-    "  col = mix(col, ly3.rgb, ly3.a);",
     "",
     "  // Strong vignette — push edges to black",
     "  float vig = 1.0 - smoothstep(0.15, 0.95, length(p * vec2(0.85, 1.0)));",
@@ -225,7 +212,7 @@ const FRAG_SRC = [
 
 export function FlowField() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 480;
 
     useEffect(() => {
         if (isMobile) return;
@@ -356,7 +343,7 @@ export function FlowField() {
         return (
             <div
                 className="fixed inset-0 bg-[#030408] pointer-events-none"
-                style={{ zIndex: -2 }}
+                style={{ zIndex: 1 }}
             />
         );
     }
@@ -365,7 +352,7 @@ export function FlowField() {
         <canvas
             ref={canvasRef}
             className="fixed inset-0 pointer-events-none"
-            style={{ zIndex: -2, width: "100vw", height: "100vh" }}
+            style={{ zIndex: 1, width: "100vw", height: "100vh" }}
         />
     );
 }
