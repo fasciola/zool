@@ -1,16 +1,11 @@
 import { useEffect, useRef } from "react";
 import { ArrowDown, Layers, ArrowRight } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function HeroSection() {
     const { content, isRtl } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const headingRef = useRef<HTMLHeadingElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
 
     // Smooth scroll handler
     const handleScrollTo = (id: string) => {
@@ -22,11 +17,23 @@ export function HeroSection() {
         }
     };
 
-    // GSAP Animations: Clip Reveal & Sequenced Entrance
+    // Lightweight CSS-only animations on mobile, GSAP only on desktop
     useEffect(() => {
+        const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+        
+        if (isMobile) {
+            // On mobile, just ensure elements are visible without animation
+            if (headingRef.current) {
+                headingRef.current.style.clipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
+                headingRef.current.style.opacity = "1";
+                headingRef.current.style.transform = "none";
+            }
+            return;
+        }
+
+        // Only load GSAP on desktop for better mobile performance
         const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (prefersReduced) {
-            // If motion is reduced, skip animations and apply end states directly
             if (headingRef.current) {
                 headingRef.current.style.clipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
                 headingRef.current.style.transform = "none";
@@ -35,47 +42,54 @@ export function HeroSection() {
             return;
         }
 
-        const heading = headingRef.current;
+        // Dynamic import of GSAP only when needed (desktop)
+        import("gsap").then(({ gsap }) => {
+            import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+                gsap.registerPlugin(ScrollTrigger);
 
-        const ctx = gsap.context(() => {
-            // 1. Clip path text reveal animation
-            if (heading) {
-                gsap.fromTo(
-                    heading,
-                    {
-                        clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)",
-                        y: 50,
-                        opacity: 0,
-                    },
-                    {
-                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                        y: 0,
-                        opacity: 1,
-                        duration: 1.2,
-                        ease: "power4.out",
-                        delay: 0.3,
+                const heading = headingRef.current;
+
+                const ctx = gsap.context(() => {
+                    // 1. Clip path text reveal animation
+                    if (heading) {
+                        gsap.fromTo(
+                            heading,
+                            {
+                                clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)",
+                                y: 50,
+                                opacity: 0,
+                            },
+                            {
+                                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+                                y: 0,
+                                opacity: 1,
+                                duration: 1.2,
+                                ease: "power4.out",
+                                delay: 0.3,
+                            }
+                        );
                     }
-                );
-            }
 
-            // 2. Reveal elements in sequence
-            gsap.fromTo(
-                ".hero-fade-in",
-                { opacity: 0, y: 20 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: "power3.out",
-                    delay: 0.8,
-                }
-            );
-        }, sectionRef);
+                    // 2. Reveal elements in sequence
+                    gsap.fromTo(
+                        ".hero-fade-in",
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            stagger: 0.15,
+                            ease: "power3.out",
+                            delay: 0.8,
+                        }
+                    );
+                }, sectionRef);
 
-        return () => {
-            ctx.revert();
-        };
+                return () => {
+                    ctx.revert();
+                };
+            });
+        });
     }, []);
 
     return (
@@ -101,7 +115,6 @@ export function HeroSection() {
 
             {/* 2. Hero Content Core */}
             <div
-                ref={containerRef}
                 className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 z-10 text-center flex flex-col items-center justify-center"
             >
                 {/* Badge Card - Professional Polish Custom */}
