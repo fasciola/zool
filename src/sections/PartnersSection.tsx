@@ -1,7 +1,6 @@
 ﻿import React, { useState } from "react";
 import { RotateCcw, Send } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { RainOnGlass } from "../components/RainOnGlass";
 import { SectionHeader } from "../components/SectionHeader";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
@@ -378,10 +377,7 @@ export function PartnersSection() {
             id="partners"
             className="relative w-full py-20 sm:py-28 bg-transparent overflow-hidden"
         >
-            {/* Rain on Glass background simulation */}
-            <RainOnGlass />
-
-            {/* Deep decorative shadows to frame content on top of rain canvas */}
+            {/* Deep decorative shadows to frame content */}
             <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
