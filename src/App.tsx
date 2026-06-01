@@ -7,16 +7,16 @@ import { AboutSection } from "./sections/AboutSection";
 import { ContactSection } from "./sections/ContactSection";
 import { Footer } from "./components/Footer";
 import { FloatingWhatsApp } from "./components/FloatingWhatsApp";
-import { FlowField } from "./components/FlowField";
+import { ParticlesBackground } from "./components/ParticlesBackground";
 
 export default function App() {
     return (
         <LanguageProvider>
             <div className="relative min-h-screen w-full flex flex-col overflow-x-hidden antialiased bg-[#030408]">
-                {/* Animated WebGL Silk Flow Background */}
-                <FlowField />
+                {/* Light, ultra-fast CSS & JS Canvas Particle Ambient Background */}
+                <ParticlesBackground />
 
-                {/* Content wrapper with higher z-index to overlay WebGL elements correctly */}
+                {/* Content wrapper with higher z-index to overlay background elements correctly */}
                 <div className="relative z-10 flex flex-col min-h-screen w-full justify-between">
                     {/* Global Navigation Bar */}
                     <Navbar />
