@@ -51,7 +51,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
     };
 
     return (
-        <div className="group relative flex flex-col justify-between overflow-hidden rounded-sm bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-[#2B64F6]/50 hover:shadow-[#2B64F6]/10 reveal-fade-up border-l-4 border-l-transparent hover:border-l-[#2B64F6]">
+        <div className="group relative flex flex-col justify-between overflow-hidden rounded-sm bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-[#2B807D]/50 hover:shadow-[#2B807D]/10 reveal-fade-up border-l-4 border-l-transparent hover:border-l-[#2B807D]">
             <div>
                 {/* Card Image Area with fallbacks */}
                 <div className="relative h-[180px] w-full overflow-hidden bg-slate-950 rounded-t-sm">
@@ -66,9 +66,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         />
                     ) : (
                         // Premium fallback: Deep metallic blue and black organic gradient with subtle backdrop
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-black via-slate-900 to-[#2B64F6]/30">
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-black via-slate-900 to-[#2B807D]/30">
                             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-                            <div className="relative px-4 py-2 rounded-sm bg-[#2B64F6]/10 border border-[#2B64F6]/30 text-gold text-xs font-mono font-medium tracking-wider">
+                            <div className="relative px-4 py-2 rounded-sm bg-[#2B807D]/10 border border-[#2B807D]/30 text-gold text-xs font-mono font-medium tracking-wider">
                                 {service.title}
                             </div>
                         </div>

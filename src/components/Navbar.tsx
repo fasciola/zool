@@ -31,7 +31,7 @@ export function Navbar() {
         <header
             className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 transform ${isVisible ? "translate-y-0" : "-translate-y-full"
                 } ${isScrolled
-                    ? "bg-black/80 backdrop-blur-md border-b border-[#2B64F6]/30 py-4 shadow-lg text-white"
+                    ? "bg-black/80 backdrop-blur-md border-b border-[#2B807D]/30 py-4 shadow-lg text-white"
                     : "bg-transparent py-6 border-b border-white/5 text-white"
                 }`}
         >
@@ -59,7 +59,7 @@ export function Navbar() {
                             <div
                                 id="nav-logo-fallback"
                                 style={{ display: "none" }}
-                                className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#2B64F6] font-bold text-white rounded-sm shadow-md transition-transform duration-300"
+                                className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#2B807D] font-bold text-white rounded-sm shadow-md transition-transform duration-300"
                             >
                                 <span className="font-sans text-lg font-extrabold text-[#0A1628] leading-none">Z</span>
                             </div>
@@ -96,7 +96,7 @@ export function Navbar() {
                         {/* Premium Blue Call Button */}
                         <a
                             href="tel:+971568826563"
-                            className="hidden sm:flex items-center gap-2 px-5 py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-[#0A1628] bg-[#2B64F6] hover:bg-[#528BFF] active:scale-95 rounded-sm shadow-sm transition-all duration-300 font-mono"
+                            className="hidden sm:flex items-center gap-2 px-5 py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-[#0A1628] bg-[#2B807D] hover:bg-[#3AA4A1] active:scale-95 rounded-sm shadow-sm transition-all duration-300 font-mono"
                         >
                             <Phone className="h-3.5 w-3.5" />
                             <span>{content.callUs}</span>

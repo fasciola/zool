@@ -30,14 +30,14 @@ export function Footer() {
                             onClick={() => handleScrollTo("hero")}
                             className="flex items-center gap-3 cursor-pointer self-start group focus:outline-none"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#2B64F6] text-[#0A1628] font-bold text-lg shadow-md">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#2B807D] text-[#0A1628] font-bold text-lg shadow-md">
                                 Z
                             </div>
                             <div className="flex flex-col text-left">
                                 <span className="text-xl font-extrabold tracking-tight text-white leading-none">
                                     {content.company}
                                 </span>
-                                <span className="text-[10px] uppercase tracking-widest text-[#2B64F6] font-medium mt-1 leading-none">
+                                <span className="text-[10px] uppercase tracking-widest text-[#2B807D] font-medium mt-1 leading-none">
                                     {content.companySub}
                                 </span>
                             </div>

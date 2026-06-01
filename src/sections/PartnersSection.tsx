@@ -407,7 +407,7 @@ export function PartnersSection() {
                 {/* 4 Frosted Glass Value Cards */}
                 <div className="mt-16">
                     <div className="text-center mb-10 sm:mb-12 reveal-fade-up">
-                        <span className="inline-block px-3 py-1 mb-3 text-xs md:text-sm font-bold tracking-widest text-[#2B64F6] uppercase bg-[#2B64F6]/10 rounded-sm border border-[#2B64F6]/30 font-mono">
+                        <span className="inline-block px-3 py-1 mb-3 text-xs md:text-sm font-bold tracking-widest text-[#2B807D] uppercase bg-[#2B807D]/10 rounded-sm border border-[#2B807D]/30 font-mono">
                             {content.partners.valuesBadge}
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-sans">
@@ -419,7 +419,7 @@ export function PartnersSection() {
                         {content.partners.valuesList.map((val) => (
                             <div
                                 key={val.number}
-                                className="reveal-fade-up flex flex-col justify-between p-6 rounded-sm border border-white/5 bg-white/[0.02] backdrop-blur-md border-l-2 border-l-transparent hover:border-l-[#2B64F6] hover:bg-white/[0.05] hover:border-r-white/10 transition-all duration-300 hover:-translate-y-1.5 shadow-xl group"
+                                className="reveal-fade-up flex flex-col justify-between p-6 rounded-sm border border-white/5 bg-white/[0.02] backdrop-blur-md border-l-2 border-l-transparent hover:border-l-[#2B807D] hover:bg-white/[0.05] hover:border-r-white/10 transition-all duration-300 hover:-translate-y-1.5 shadow-xl group"
                             >
                                 <div>
                                     <div className="text-xl sm:text-2xl font-black font-mono text-gold/30 group-hover:text-gold transition-colors duration-300 mb-4">
