@@ -204,11 +204,17 @@ const PARTNER_LOGO_FILENAMES: Record<number, string> = {
     13: "flydubai"
 };
 
+// Specify which partner indices have uploaded logos in the public/logos directory to avoid heavy 404 network requests.
+// Keep empty to use the beautiful, instant-loading monogram fallbacks.
+const UPLOADED_LOGOS: number[] = [];
+
 // Optimized 3D Flipping Card Component
 const PartnerCard = React.memo(({ name, index }: { name: string; index: number }) => {
     const { language, isRtl } = useLanguage();
     const [isFlipped, setIsFlipped] = useState(false);
-    const [imgStage, setImgStage] = useState(0); // 0: try png, 1: try jpg, 2: fallback to monogram
+    const [imgStage, setImgStage] = useState(() => {
+        return UPLOADED_LOGOS.includes(index) ? 0 : 2;
+    });
 
     // Look for uploaded logos inside the public folder /logos/ dynamically
     const baseName = PARTNER_LOGO_FILENAMES[index] || `logo-${index + 1}`;
@@ -245,7 +251,7 @@ const PartnerCard = React.memo(({ name, index }: { name: string; index: number }
                 ? `مرحباً زول لخدمات رجال الأعمال، أود الاستفسار عن تفاصيل تأسيس وتسهيل الإجراءات بالتنسيق مع: "${name}". يرجى الإفادة بالخطوات.`
                 : `Hello ZOOL Businessmen Services, I would like to inquire about setups and corporate solutions linked with "${name}". Please advise.`
         );
-        window.location.href = `https://wa.me/+971503626053?text=${msg}`;
+        window.location.href = `https://wa.me/+971568826563?text=${msg}`;
     };
 
     return (
