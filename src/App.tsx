@@ -65,7 +65,7 @@ const serviceImages = [
   "https://images.unsplash.com/photo-1560472355-536de3962603?auto=format&fit=crop&w=900&q=80",
   "https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=900&q=80",
   "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1554224154-26032fced8bd?auto=format&fit=crop&w=900&q=80",
+  "/services/tax.png",
   "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80",
 ];
 
@@ -172,47 +172,12 @@ function Hero() {
 function PartnersLogos() {
   const { content } = useLanguage();
   const partners = content.partners.list;
-  return (
-    <section id="partners" className="relative z-20 -mt-16 bg-white pb-8 pt-4 sm:-mt-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="rounded-[2rem] border border-slate-100 bg-white/95 p-5 shadow-xl backdrop-blur">
-          <div className="mb-5 text-center">
-            <p className="text-xs font-black uppercase tracking-[.25em] text-[#d3063b]">{content.partners.badge}</p>
-            <h2 className="mt-2 text-2xl font-black text-[#071634]">{content.partners.title}</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
-            {partners.map((partner) => {
-              const logo = partnerLogoMap[partner];
-              return (
-                <div key={partner} className="group flex min-h-[118px] flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#d3063b]/30 hover:shadow-lg">
-                  {logo ? <img src={logo} alt={partner} className="h-12 max-w-[120px] object-contain" /> : <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#071634] text-xs font-black text-white">ZOOL</div>}
-                  <span className="text-[11px] font-black leading-snug text-slate-700">{partner}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return <section id="partners" className="relative z-20 -mt-16 bg-white pb-8 pt-4 sm:-mt-20"><div className="mx-auto max-w-7xl px-4 sm:px-6"><div className="rounded-[2rem] border border-slate-100 bg-white/95 p-5 shadow-xl backdrop-blur"><div className="mb-5 text-center"><p className="text-xs font-black uppercase tracking-[.25em] text-[#d3063b]">{content.partners.badge}</p><h2 className="mt-2 text-2xl font-black text-[#071634]">{content.partners.title}</h2></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">{partners.map((partner) => { const logo = partnerLogoMap[partner]; return <div key={partner} className="group flex min-h-[118px] flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#d3063b]/30 hover:shadow-lg">{logo ? <img src={logo} alt={partner} className="h-12 max-w-[120px] object-contain" /> : <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#071634] text-xs font-black text-white">ZOOL</div>}<span className="text-[11px] font-black leading-snug text-slate-700">{partner}</span></div>; })}</div></div></div></section>;
 }
 
 function About() {
   const { content } = useLanguage();
-  return (
-    <section id="about" className="bg-white py-20 sm:py-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2">
-        <div className="relative min-h-[420px]">
-          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80" alt="Modern business office" className="absolute left-0 top-0 h-80 w-80 rounded-full object-cover shadow-xl" />
-          <div className="absolute bottom-0 right-8 flex h-48 w-48 items-center justify-center rounded-full border-8 border-white bg-[#071634] p-8 text-center text-white shadow-xl">
-            <div><Briefcase className="mx-auto mb-3 h-10 w-10 text-[#ffbf00]" /><p className="text-sm font-black leading-5">{content.companySub}</p></div>
-          </div>
-          <div className="absolute bottom-10 left-12 rounded-full bg-[#d3063b] px-6 py-4 font-black text-white shadow-lg">17 +<br /><span className="text-xs uppercase">Years</span></div>
-        </div>
-        <div><p className="text-sm font-black uppercase tracking-[.25em] text-[#d3063b]">{content.about.badge}</p><h2 className="mt-3 text-3xl font-black leading-tight text-[#071634] sm:text-5xl">{content.about.title}</h2><p className="mt-6 leading-8 text-slate-700">{content.about.subtitle}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph1}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph2}</p><a href={whatsappUrl} className="mt-8 inline-flex items-center gap-3 rounded-sm bg-[#071634] px-7 py-4 text-sm font-black uppercase tracking-wider text-white transition hover:bg-[#d3063b]">{content.getStarted} <ArrowRight className="h-4 w-4" /></a></div>
-      </div>
-    </section>
-  );
+  return <section id="about" className="bg-white py-20 sm:py-24"><div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2"><div className="relative min-h-[420px]"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80" alt="Modern business office" className="absolute left-0 top-0 h-80 w-80 rounded-full object-cover shadow-xl" /><div className="absolute bottom-0 right-8 flex h-48 w-48 items-center justify-center rounded-full border-8 border-white bg-[#071634] p-8 text-center text-white shadow-xl"><div><Briefcase className="mx-auto mb-3 h-10 w-10 text-[#ffbf00]" /><p className="text-sm font-black leading-5">{content.companySub}</p></div></div><div className="absolute bottom-10 left-12 rounded-full bg-[#d3063b] px-6 py-4 font-black text-white shadow-lg">17 +<br /><span className="text-xs uppercase">Years</span></div></div><div><p className="text-sm font-black uppercase tracking-[.25em] text-[#d3063b]">{content.about.badge}</p><h2 className="mt-3 text-3xl font-black leading-tight text-[#071634] sm:text-5xl">{content.about.title}</h2><p className="mt-6 leading-8 text-slate-700">{content.about.subtitle}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph1}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph2}</p><a href={whatsappUrl} className="mt-8 inline-flex items-center gap-3 rounded-sm bg-[#071634] px-7 py-4 text-sm font-black uppercase tracking-wider text-white transition hover:bg-[#d3063b]">{content.getStarted} <ArrowRight className="h-4 w-4" /></a></div></div></section>;
 }
 
 function Values() {
@@ -222,7 +187,7 @@ function Values() {
 
 function Services() {
   const { content, isRtl } = useLanguage();
-  return <section id="services" className="bg-white py-20 sm:py-28" dir={isRtl ? "rtl" : "ltr"}><div className="mx-auto max-w-7xl px-4 sm:px-6"><div className="mb-12 max-w-3xl"><p className="text-sm font-black uppercase tracking-[.25em] text-[#d3063b]">{content.services.badge}</p><h2 className="mt-3 text-3xl font-black text-[#071634] sm:text-5xl">{content.services.title}</h2><p className="mt-4 leading-8 text-slate-600">{content.services.subtitle}</p></div><div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">{content.services.list.map((service, index) => { const Icon = iconMap[service.iconName] || Briefcase; return <article key={service.id} className="group overflow-hidden rounded-sm border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><div className="relative h-48 overflow-hidden"><img src={serviceImages[index % serviceImages.length]} alt={service.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" /><div className="absolute inset-0 bg-[#071634]/25" /><div className="absolute left-4 top-4 rounded-full bg-white/90 p-3 text-[#d3063b] shadow-md backdrop-blur"><Icon className="h-5 w-5" /></div></div><div className="p-5"><h3 className="font-black leading-snug text-[#071634]">{service.title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p><a href={whatsappUrl} className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#d3063b]">{content.services.viewDetails} <ArrowRight className={`h-3.5 w-3.5 ${isRtl ? "rotate-180" : ""}`} /></a></div></article>; })}</div></div></section>;
+  return <section id="services" className="bg-white py-20 sm:py-28" dir={isRtl ? "rtl" : "ltr"}><div className="mx-auto max-w-7xl px-4 sm:px-6"><div className="mb-12 max-w-3xl"><p className="text-sm font-black uppercase tracking-[.25em] text-[#d3063b]">{content.services.badge}</p><h2 className="mt-3 text-3xl font-black text-[#071634] sm:text-5xl">{content.services.title}</h2><p className="mt-4 leading-8 text-slate-600">{content.services.subtitle}</p></div><div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">{content.services.list.map((service, index) => { const Icon = iconMap[service.iconName] || Briefcase; const image = service.id === 7 ? "/services/tax.png" : serviceImages[index % serviceImages.length]; return <article key={service.id} className="group overflow-hidden rounded-sm border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><div className="relative h-48 overflow-hidden bg-[#eef7fb]"><img src={image} alt={service.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" /><div className="absolute inset-0 bg-[#071634]/25" /><div className="absolute left-4 top-4 rounded-full bg-white/90 p-3 text-[#d3063b] shadow-md backdrop-blur"><Icon className="h-5 w-5" /></div></div><div className="p-5"><h3 className="font-black leading-snug text-[#071634]">{service.title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p><a href={whatsappUrl} className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#d3063b]">{content.services.viewDetails} <ArrowRight className={`h-3.5 w-3.5 ${isRtl ? "rotate-180" : ""}`} /></a></div></article>; })}</div></div></section>;
 }
 
 function Commitment() {
