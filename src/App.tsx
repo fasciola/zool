@@ -41,6 +41,23 @@ const iconMap: Record<string, LucideIcon> = {
   Award,
 };
 
+const partnerLogoMap: Record<string, string> = {
+  "Government of Ajman": "/logos/gov_ajman.png",
+  "Ajman Free Zone (AFZ)": "/logos/AJMAN.jpg",
+  "Federal Authority for Identity, Citizenship, Customs & Port Security (FAICS)": "/logos/gov_faics.png",
+  "Emirates Health Services (EHS)": "/logos/gov_health.png",
+  "Ministry of Interior (MOI)": "/logos/gov_interior.png",
+  "Ministry of Justice (MOJ)": "/logos/gov_justice.png",
+  "ANC Free Zone": "/logos/anc-logo.jpg",
+  "Meydan Free Zone": "/logos/Meydan.jpg",
+  "Ras Al Khaimah Economic Zone (RAKEZ)": "/logos/RAKEZ.jpg",
+  "Air Arabia": "/logos/air_arabia.png",
+  "Badr Aviation": "/logos/badr_aviation.png",
+  "Emirates": "/logos/emirates.png",
+  "Ethiopian Airlines": "/logos/ethiopian_airlines.png",
+  "Flydubai": "/logos/flydubai.png",
+};
+
 const serviceImages = [
   "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
   "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80",
@@ -54,11 +71,6 @@ const serviceImages = [
 
 function goTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function initials(name: string) {
-  const clean = name.replace(/\([^)]*\)/g, "").replace(/[^A-Za-z0-9\s]/g, " ").trim();
-  return clean.split(/\s+/).slice(0, 3).map((word) => word[0]).join("").toUpperCase();
 }
 
 function Header() {
@@ -159,24 +171,25 @@ function Hero() {
 
 function PartnersLogos() {
   const { content } = useLanguage();
-  const partners = content.partners.list.slice(0, 10);
+  const partners = content.partners.list;
   return (
-    <section id="partners" className="relative z-20 -mt-10 bg-white pb-10 pt-6 sm:-mt-14">
+    <section id="partners" className="relative z-20 -mt-16 bg-white pb-8 pt-4 sm:-mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="rounded-[2rem] border border-slate-100 bg-white/95 p-5 shadow-xl backdrop-blur">
           <div className="mb-5 text-center">
             <p className="text-xs font-black uppercase tracking-[.25em] text-[#d3063b]">{content.partners.badge}</p>
             <h2 className="mt-2 text-2xl font-black text-[#071634]">{content.partners.title}</h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {partners.map((partner, index) => (
-              <div key={partner} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm transition hover:-translate-y-1 hover:border-[#d3063b]/30 hover:shadow-lg">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#071634] text-sm font-black text-white ring-4 ring-[#eef7fb] group-hover:bg-[#d3063b]">
-                  {initials(partner) || index + 1}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
+            {partners.map((partner) => {
+              const logo = partnerLogoMap[partner];
+              return (
+                <div key={partner} className="group flex min-h-[118px] flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#d3063b]/30 hover:shadow-lg">
+                  {logo ? <img src={logo} alt={partner} className="h-12 max-w-[120px] object-contain" /> : <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#071634] text-xs font-black text-white">ZOOL</div>}
+                  <span className="text-[11px] font-black leading-snug text-slate-700">{partner}</span>
                 </div>
-                <span className="text-sm font-black leading-snug text-slate-700">{partner}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -190,8 +203,10 @@ function About() {
     <section id="about" className="bg-white py-20 sm:py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2">
         <div className="relative min-h-[420px]">
-          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=80" alt="ZOOL business consultation" className="absolute left-0 top-0 h-80 w-80 rounded-full object-cover shadow-xl" />
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80" alt="Business consultant" className="absolute bottom-0 right-8 h-48 w-48 rounded-full border-8 border-white object-cover shadow-xl" />
+          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80" alt="Modern business office" className="absolute left-0 top-0 h-80 w-80 rounded-full object-cover shadow-xl" />
+          <div className="absolute bottom-0 right-8 flex h-48 w-48 items-center justify-center rounded-full border-8 border-white bg-[#071634] p-8 text-center text-white shadow-xl">
+            <div><Briefcase className="mx-auto mb-3 h-10 w-10 text-[#ffbf00]" /><p className="text-sm font-black leading-5">{content.companySub}</p></div>
+          </div>
           <div className="absolute bottom-10 left-12 rounded-full bg-[#d3063b] px-6 py-4 font-black text-white shadow-lg">17 +<br /><span className="text-xs uppercase">Years</span></div>
         </div>
         <div><p className="text-sm font-black uppercase tracking-[.25em] text-[#d3063b]">{content.about.badge}</p><h2 className="mt-3 text-3xl font-black leading-tight text-[#071634] sm:text-5xl">{content.about.title}</h2><p className="mt-6 leading-8 text-slate-700">{content.about.subtitle}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph1}</p><p className="mt-4 leading-8 text-slate-700">{content.about.paragraph2}</p><a href={whatsappUrl} className="mt-8 inline-flex items-center gap-3 rounded-sm bg-[#071634] px-7 py-4 text-sm font-black uppercase tracking-wider text-white transition hover:bg-[#d3063b]">{content.getStarted} <ArrowRight className="h-4 w-4" /></a></div>
